@@ -1,0 +1,160 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description:  tod ample project
+  
+Resources:
+  todvpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock:  "192.168.0.0/16"
+      EnableDnsHostnames: false
+      EnableDnsSupport: false
+      Tags: 
+        - Key:  "Name"
+          Value:  "todvpc"
+
+  privatesubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "192.168.1.0/24"
+      Tags: 
+        - Key:  "Name"
+          Value:  "privatesubnet1"
+      VpcId:
+        Ref:  "todvpc"
+  
+  privatesubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: "us-east-1b"
+      CidrBlock: "192.168.2.0/24"
+      Tags: 
+        - Key:  "Name"    
+          Value:  "privatesubnet2"
+      VpcId: 
+        Ref:  "todvpc"
+
+  todsubnetgroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: "This is tod rds" # Required
+      DBSubnetGroupName:  "todsubgroup"
+      SubnetIds: # Required
+        - !Ref  "privatesubnet1"
+        - !Ref  "privatesubnet2"
+      Tags:  
+        - Key:  "Name"
+          Value: "todsubgroup"
+
+  todsecuritygroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "this is tod security group" # Required
+      GroupName: "rdssg1"
+      SecurityGroupEgress: 
+      - CIDR: 0.0.0.0/0
+        FromPort: 80
+        ToPort: 80
+        IPProtocol: TCP
+      SecurityGroupIngress: 
+      - CIDR: 0.0.0.0/0
+        FromPort: 3306
+        ToPort: 3306
+        IPProtocol: TCP
+      Tags: 
+        - Key:  "Name"
+          Value:  "rdssg1"
+      VpcId: 
+        Ref:  "todvpc"
+      
+  LogicalID:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: "String"
+      AllowMajorVersionUpgrade: false
+      AssociatedRoles: 
+        AssociatedRoles
+      AutoMinorVersionUpgrade: false
+      AutomaticBackupReplicationRegion: "String"
+      AvailabilityZone: "String"
+      BackupRetentionPeriod: Number
+      CACertificateIdentifier: "String"
+      CertificateDetails:
+        CAIdentifier: "String"
+        ValidTill: "String"
+      CertificateRotationRestart: String
+      CharacterSetName: "String"
+      CopyTagsToSnapshot: false
+      CustomIAMInstanceProfile: "String"
+      DBClusterIdentifier: "String"
+      DBClusterSnapshotIdentifier: "String"
+      DBInstanceClass: "String"
+      DBInstanceIdentifier: "String"
+      DBName: "String"
+      DBParameterGroupName: "String"
+      DBSecurityGroups: 
+        DBSecurityGroups
+      DBSnapshotIdentifier: "String"
+      DBSubnetGroupName: "String"
+      DedicatedLogVolume: false
+      DeleteAutomatedBackups: false
+      DeletionProtection: false
+      Domain: "String"
+      DomainAuthSecretArn: "String"
+      DomainDnsIps: 
+        DomainDnsIps
+      DomainFqdn: "String"
+      DomainIAMRoleName: "String"
+      DomainOu: "String"
+      EnableCloudwatchLogsExports: 
+        EnableCloudwatchLogsExports
+      EnableIAMDatabaseAuthentication: false
+      EnablePerformanceInsights: false
+      Endpoint:
+        Address: "String"
+        HostedZoneId: "String"
+        Port: "String"
+      Engine: "String"
+      EngineVersion: "String"
+      Iops: Number
+      KmsKeyId: "String"
+      LicenseModel: "String"
+      ManageMasterUserPassword: false
+      MasterUserPassword: "String"
+      MasterUserSecret:
+        KmsKeyId: "String"
+        SecretArn: "String"
+      MasterUsername: "String"
+      MaxAllocatedStorage: Number
+      MonitoringInterval: Number
+      MonitoringRoleArn: "String"
+      MultiAZ: false
+      NcharCharacterSetName: "String"
+      NetworkType: "String"
+      OptionGroupName: "String"
+      PerformanceInsightsKMSKeyId: "String"
+      PerformanceInsightsRetentionPeriod: Number
+      Port: "String"
+      PreferredBackupWindow: "String"
+      PreferredMaintenanceWindow: "String"
+      ProcessorFeatures: 
+        ProcessorFeatures
+      PromotionTier: Number
+      PubliclyAccessible: false
+      ReplicaMode: "String"
+      RestoreTime: "String"
+      SourceDBClusterIdentifier: "String"
+      SourceDBInstanceAutomatedBackupsArn: "String"
+      SourceDBInstanceIdentifier: "String"
+      SourceDbiResourceId: "String"
+      SourceRegion: "String"
+      StorageEncrypted: false
+      StorageThroughput: Number
+      StorageType: "String"
+      Tags: 
+        Tags
+      Timezone: "String"
+      UseDefaultProcessorFeatures: false
+      UseLatestRestorableTime: false
+      VPCSecurityGroups: 
+        VPCSecurityGroups
